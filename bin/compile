@@ -1,2 +1,12 @@
 #!/usr/bin/env bash
-echo "-----> Nothing to compile"
+build_dir=$1
+env_dir=$3
+
+echo "-----> Installing cloud66 toolbelt"
+curl -sSL https://s3.amazonaws.com/downloads.cloud66.com/cx_installation/cx_install.sh | bash
+
+mkdir $build_dir/.cloud66
+mv /app/.cloud66/cx $build_dir/.cloud66/
+
+echo "-----> Add api token"
+echo "{\"AccessToken\":\"$(cat $env_dir/CLOUD66_TOKEN)\",\"RefreshToken\":\"\",\"Expiry\":\"0001-01-01T00:00:00Z\",\"Extra\":null}" > $build_dir/.cloud66/cx.json
